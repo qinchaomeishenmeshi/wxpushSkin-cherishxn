@@ -6,26 +6,23 @@
     <title>消息通知</title>
     <style>
         :root {
-            --bg-color: #fdfcf8; /* 米白/和纸色 */
+            --bg-color: #f4f4f9; /* 浅灰色 */
             --card-bg: #ffffff;
-            --text-main: #5d5d5d;
-            --text-sub: #8b8b8b;
-            --accent-green: #8fac86; /* 抹茶绿 */
-            --accent-pink: #f3d1d6; /* 樱花粉 */
-            --border-color: #e6e6e6;
+            --text-main: #333333; /* 深灰 */
+            --text-sub: #777777; /* 灰色 */
+            --accent-blue: #4A90E2; /* 蓝色 */
+            --border-color: #e0e0e0;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: "Segoe UI", "Arial", sans-serif;
         }
-       
+
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(#e8e8e8 1px, transparent 1px);
-            background-size: 20px 20px; /*极其隐约的点阵背景*/
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -35,25 +32,24 @@
             overflow-x: hidden;
             position: relative;
         }
-       
+
         .container {
             max-width: 700px;
             width: 100%;
             background: var(--card-bg);
             border-radius: 12px;
             padding: 40px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03); /* 极柔和的阴影 */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
             position: relative;
             transition: transform 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.02);
-            z-index: 10;
         }
-       
+
         .container:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.05);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
-        
+
         /* 顶部装饰条 */
         .container::before {
             content: '';
@@ -62,101 +58,87 @@
             left: 0;
             width: 100%;
             height: 6px;
-            background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-pink) 100%);
+            background: linear-gradient(90deg, var(--accent-blue) 0%, #7ec8f6 100%);
             border-radius: 12px 12px 0 0;
         }
-       
+
         .title {
             text-align: center;
             margin-bottom: 30px;
-            font-size: 1.8rem;
-            font-weight: 500;
+            font-size: 2rem;
+            font-weight: bold;
             letter-spacing: 1px;
-            color: #4a4a4a;
+            color: #333;
             position: relative;
-            padding-bottom: 15px;
         }
-       
+
         .title::after {
             content: 'Message';
             position: absolute;
-            bottom: -5px;
+            bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.8rem;
-            color: var(--accent-green);
+            font-size: 0.9rem;
+            color: var(--accent-blue);
             font-weight: 300;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
-       
+
         .info-card {
             margin-bottom: 25px;
-            transition: all 0.3s ease;
         }
-       
+
         .info-label {
-            font-size: 0.9rem;
-            color: var(--accent-green);
+            font-size: 1rem;
+            color: var(--accent-blue);
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
             font-weight: 600;
-            letter-spacing: 0.5px;
         }
-        
-        /* 装饰性小圆点 */
-        .info-label::before {
-            content: '';
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--accent-pink);
-            margin-right: 8px;
-        }
-       
+
         .info-content {
-            background: #fcfcfc;
+            background: #fafafa;
             border: 1px solid #f0f0f0;
             border-radius: 8px;
             padding: 20px;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             color: var(--text-main);
             line-height: 1.75;
             word-break: break-word;
             white-space: pre-line;
         }
 
-        /* 日期样式特殊处理 */
         #date {
             background: transparent;
             border: none;
             padding: 0;
             font-size: 1rem;
             color: var(--text-sub);
-            font-family: 'Georgia', serif; /* 日期用衬线体更有质感 */
+            font-family: 'Georgia', serif;
             font-style: italic;
         }
-       
+
         /* Markdown 样式覆盖 - 清新风格 */
         .info-content h1, .info-content h2, .info-content h3 {
             color: #444;
             margin-top: 1.2em;
             margin-bottom: 0.6em;
             font-weight: 500;
-            border-bottom: 1px dashed var(--accent-pink);
+            border-bottom: 1px dashed var(--accent-blue);
             padding-bottom: 5px;
         }
+
         .info-content strong {
-            color: #925f5f; /* 柔和的红褐色 */
+            color: #d94c4c;
             font-weight: 600;
-            background: rgba(243, 209, 214, 0.2);
+            background: rgba(216, 76, 76, 0.1);
             padding: 0 2px;
         }
+
         .info-content em {
-            color: var(--accent-green);
+            color: var(--accent-blue);
         }
+
         .info-content code {
             background: #f4f4f4;
             color: #d67a7a;
@@ -165,6 +147,7 @@
             font-family: 'Consolas', monospace;
             font-size: 0.9em;
         }
+
         .info-content pre {
             background: #f7f7f7;
             color: #666;
@@ -172,116 +155,80 @@
             border-radius: 6px;
             overflow-x: auto;
             margin-bottom: 1em;
-            border-left: 3px solid var(--accent-green);
+            border-left: 3px solid var(--accent-blue);
         }
+
         .info-content blockquote {
-            border-left: 3px solid var(--accent-pink);
-            background-color: #fffafa;
+            border-left: 3px solid var(--accent-blue);
+            background-color: #f7f7f7;
             margin: 1em 0;
             padding: 10px 15px;
-            color: #888;
+            color: #555;
         }
+
         .info-content ul, .info-content ol {
             padding-left: 20px;
             margin-bottom: 1em;
         }
+
         .info-content li {
             margin-bottom: 0.3em;
-            color: var(--text-main);
         }
+
         .info-content a {
-            color: #7fa1b0;
+            color: var(--accent-blue);
             text-decoration: none;
-            border-bottom: 1px solid #7fa1b0;
+            border-bottom: 1px solid var(--accent-blue);
         }
+
         .info-content table {
             width: 100%;
             border-collapse: collapse;
             margin: 1em 0;
         }
+
         .info-content th {
-            background-color: rgba(143, 172, 134, 0.1);
+            background-color: rgba(74, 144, 226, 0.1);
             color: #555;
             padding: 8px;
             font-weight: 600;
         }
+
         .info-content td {
             padding: 8px;
             border-bottom: 1px solid #eee;
         }
-       
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .container {
                 padding: 30px 25px;
             }
             .title {
-                font-size: 1.5rem;
+                font-size: 1.7rem;
             }
             .info-content {
                 padding: 15px;
                 font-size: 1rem;
             }
         }
-       
-        /* 樱花背景动画 */
-        .sakura-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            overflow: hidden;
-            pointer-events: none;
-        }
-       
-        .petal {
-            position: absolute;
-            background-color: #ffd7e6; /* 浅粉色 */
-            border-radius: 150% 0 150% 0;
-            opacity: 0.8;
-            animation: fall linear infinite;
-        }
-
-        @keyframes fall {
-            0% {
-                opacity: 0;
-                top: -10%;
-                transform: translateX(0) rotate(0deg);
-            }
-            10% {
-                opacity: 0.8;
-            }
-            90% {
-                opacity: 0.6;
-            }
-            100% {
-                opacity: 0;
-                top: 110%;
-                transform: translateX(100px) rotate(360deg);
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="sakura-container" id="sakura-container"></div>
-   
     <div class="container">
         <div class="title" id="title">消息推送</div>
-       
+
         <div class="info-card">
             <div class="info-label">通知内容</div>
             <div class="info-content" id="message">无告警信息</div>
         </div>
-       
+
         <div class="info-card" style="margin-bottom: 0;">
             <div class="info-label">时间</div>
             <div class="info-content" id="date">无时间信息</div>
         </div>
     </div>
 
-    <!-- Markdown 解析库 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
     <script>
         // 从 URL 参数读取数据
@@ -294,55 +241,15 @@
             };
         }
 
-        // 创建樱花飘落效果
-        function createSakura() {
-            const container = document.getElementById('sakura-container');
-            const petalCount = 20; // 花瓣数量
-           
-            for (let i = 0; i < petalCount; i++) {
-                const petal = document.createElement('div');
-                petal.classList.add('petal');
-               
-                // 随机大小
-                const size = Math.random() * 10 + 8;
-                petal.style.width = `${size}px`;
-                petal.style.height = `${size}px`;
-               
-                // 随机位置
-                petal.style.left = `${Math.random() * 100}%`;
-                
-                // 随机动画时长和延迟
-                const duration = 8 + Math.random() * 5;
-                const delay = Math.random() * 10;
-                petal.style.animationDuration = `${duration}s`;
-                petal.style.animationDelay = `-${delay}s`; // 负延迟让动画开始时屏幕上就有花瓣
-               
-                container.appendChild(petal);
-            }
-        }
-
-        // 处理 Markdown 渲染
-        function renderMarkdown() {
-            const messageEl = document.getElementById('message');
-            if (messageEl && typeof marked !== 'undefined') {
-                const markdownText = messageEl.textContent || messageEl.innerText;
-                // 配置 marked 选项（可选）
-                messageEl.innerHTML = marked.parse(markdownText);
-            }
-        }
-
         // 填充页面内容
         function fillContent() {
             const params = getUrlParams();
             document.getElementById('title').textContent = params.title;
             document.getElementById('message').textContent = params.message;
             document.getElementById('date').textContent = params.date;
-            renderMarkdown(); // 渲染 Markdown
         }
 
-        // 页面加载时调用
         window.onload = function() {
-            createSakura();
             fillContent();
         };
     </script>
