@@ -3,18 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>消息推送</title>
+    <title>消息通知</title>
     <style>
+        :root {
+            --bg-color: #fdfcf8; /* 米白/和纸色 */
+            --card-bg: #ffffff;
+            --text-main: #5d5d5d;
+            --text-sub: #8b8b8b;
+            --accent-green: #8fac86; /* 抹茶绿 */
+            --accent-pink: #f3d1d6; /* 樱花粉 */
+            --border-color: #e6e6e6;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
         }
        
         body {
-            background: linear-gradient(135deg, #0c0c2e 0%, #1a1a3e 100%);
-            color: #e0f7fa;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#e8e8e8 1px, transparent 1px);
+            background-size: 20px 20px; /*极其隐约的点阵背景*/
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -24,287 +36,238 @@
             position: relative;
         }
        
-        /* 动态背景效果 */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                radial-gradient(circle at 20% 30%, rgba(0, 150, 136, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(0, 188, 212, 0.15) 0%, transparent 50%);
-            z-index: -1;
-        }
-       
         .container {
-            max-width: 800px;
+            max-width: 700px;
             width: 100%;
-            background: rgba(18, 18, 40, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
+            background: var(--card-bg);
+            border-radius: 12px;
             padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
-                        0 0 0 1px rgba(0, 150, 136, 0.2),
-                        0 0 20px rgba(0, 188, 212, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03); /* 极柔和的阴影 */
             position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.02);
+            z-index: 10;
         }
        
         .container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6),
-                        0 0 0 1px rgba(0, 150, 136, 0.4),
-                        0 0 30px rgba(0, 188, 212, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.05);
         }
-       
+        
+        /* 顶部装饰条 */
         .container::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #00bcd4, #009688);
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-pink) 100%);
+            border-radius: 12px 12px 0 0;
         }
        
         .title {
             text-align: center;
-            margin-bottom: 40px;
-            font-size: 2.2rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            color: #00bcd4;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #4a4a4a;
             position: relative;
             padding-bottom: 15px;
         }
        
         .title::after {
-            content: '';
+            content: 'Message';
             position: absolute;
-            bottom: 0;
+            bottom: -5px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #00bcd4, transparent);
+            font-size: 0.8rem;
+            color: var(--accent-green);
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
        
         .info-card {
-            background: rgba(30, 30, 60, 0.7);
-            border-radius: 12px;
-            padding: 25px;
             margin-bottom: 25px;
-            border-left: 4px solid #00bcd4;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-       
-        .info-card:hover {
-            transform: translateX(5px);
-            background: rgba(40, 40, 70, 0.8);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
        
         .info-label {
-            font-size: 1.3rem;
-            color: #80deea;
-            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
-       
+        
+        /* 装饰性小圆点 */
         .info-label::before {
             content: '';
             display: inline-block;
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            background: #00bcd4;
-            margin-right: 10px;
+            background: var(--accent-pink);
+            margin-right: 8px;
         }
        
         .info-content {
-            font-size: 1.2rem;
-            color: #e0f7fa;
-            font-weight: 500;
+            background: #fcfcfc;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 20px;
+            font-size: 1.05rem;
+            color: var(--text-main);
+            line-height: 1.75;
             word-break: break-word;
-            line-height: 1.6;
             white-space: pre-line;
         }
-       
-        .pulse {
-            animation: pulse 2s infinite;
+
+        /* 日期样式特殊处理 */
+        #date {
+            background: transparent;
+            border: none;
+            padding: 0;
+            font-size: 1rem;
+            color: var(--text-sub);
+            font-family: 'Georgia', serif; /* 日期用衬线体更有质感 */
+            font-style: italic;
         }
        
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(0, 188, 212, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(0, 188, 212, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(0, 188, 212, 0);
-            }
-        }
-       
-        /* Markdown 样式覆盖 */
-        .info-content h1, .info-content h2, .info-content h3, .info-content h4, .info-content h5, .info-content h6 {
-            color: #00bcd4;
-            margin-top: 1em;
-            margin-bottom: 0.5em;
-            font-weight: 400;
-        }
-        .info-content p {
-            margin-bottom: 1em;
-            line-height: 1.6;
+        /* Markdown 样式覆盖 - 清新风格 */
+        .info-content h1, .info-content h2, .info-content h3 {
+            color: #444;
+            margin-top: 1.2em;
+            margin-bottom: 0.6em;
+            font-weight: 500;
+            border-bottom: 1px dashed var(--accent-pink);
+            padding-bottom: 5px;
         }
         .info-content strong {
-            color: #e0f7fa;
+            color: #925f5f; /* 柔和的红褐色 */
             font-weight: 600;
+            background: rgba(243, 209, 214, 0.2);
+            padding: 0 2px;
         }
         .info-content em {
-            color: #80deea;
-            font-style: italic;
+            color: var(--accent-green);
         }
         .info-content code {
-            background: rgba(0, 0, 0, 0.3);
-            color: #00bcd4;
-            padding: 2px 4px;
+            background: #f4f4f4;
+            color: #d67a7a;
+            padding: 2px 6px;
             border-radius: 4px;
-            font-family: 'Courier New', monospace;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9em;
         }
         .info-content pre {
-            background: rgba(0, 0, 0, 0.4);
-            color: #e0f7fa;
-            padding: 1em;
-            border-radius: 8px;
+            background: #f7f7f7;
+            color: #666;
+            padding: 15px;
+            border-radius: 6px;
             overflow-x: auto;
             margin-bottom: 1em;
+            border-left: 3px solid var(--accent-green);
         }
         .info-content blockquote {
-            border-left: 4px solid #009688;
+            border-left: 3px solid var(--accent-pink);
+            background-color: #fffafa;
             margin: 1em 0;
-            padding-left: 1em;
-            color: #80deea;
-            font-style: italic;
+            padding: 10px 15px;
+            color: #888;
         }
         .info-content ul, .info-content ol {
+            padding-left: 20px;
             margin-bottom: 1em;
-            padding-left: 2em;
         }
         .info-content li {
-            margin-bottom: 0.5em;
+            margin-bottom: 0.3em;
+            color: var(--text-main);
         }
         .info-content a {
-            color: #00bcd4;
+            color: #7fa1b0;
             text-decoration: none;
-        }
-        .info-content a:hover {
-            text-decoration: underline;
+            border-bottom: 1px solid #7fa1b0;
         }
         .info-content table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 1em;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .info-content th, .info-content td {
-            padding: 0.75em;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 1em 0;
         }
         .info-content th {
-            background: rgba(0, 188, 212, 0.2);
-            color: #00bcd4;
+            background-color: rgba(143, 172, 134, 0.1);
+            color: #555;
+            padding: 8px;
+            font-weight: 600;
+        }
+        .info-content td {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
         }
        
         /* 响应式设计 */
         @media (max-width: 768px) {
             .container {
-                padding: 25px;
+                padding: 30px 25px;
             }
-           
             .title {
-                font-size: 1.9rem;
+                font-size: 1.5rem;
             }
-           
             .info-content {
-                font-size: 1.1rem;
-            }
-           
-            .info-label {
-                font-size: 1.2rem;
-            }
-        }
-       
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-            }
-           
-            .title {
-                font-size: 1.6rem;
-            }
-           
-            .info-content {
+                padding: 15px;
                 font-size: 1rem;
             }
-           
-            .info-card {
-                padding: 20px;
-            }
-           
-            .info-label {
-                font-size: 1.1rem;
-            }
         }
        
-        /* 动态粒子背景 */
-        .particles {
+        /* 樱花背景动画 */
+        .sakura-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 1;
             overflow: hidden;
+            pointer-events: none;
         }
        
-        .particle {
+        .petal {
             position: absolute;
-            background: rgba(0, 188, 212, 0.3);
-            border-radius: 50%;
-            animation: float 15s infinite linear;
+            background-color: #ffd7e6; /* 浅粉色 */
+            border-radius: 150% 0 150% 0;
+            opacity: 0.8;
+            animation: fall linear infinite;
         }
-       
-        @keyframes float {
+
+        @keyframes fall {
             0% {
-                transform: translateY(0) translateX(0);
                 opacity: 0;
+                top: -10%;
+                transform: translateX(0) rotate(0deg);
             }
             10% {
-                opacity: 1;
+                opacity: 0.8;
             }
             90% {
-                opacity: 1;
+                opacity: 0.6;
             }
             100% {
-                transform: translateY(-100vh) translateX(100px);
                 opacity: 0;
+                top: 110%;
+                transform: translateX(100px) rotate(360deg);
             }
         }
     </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
+    <div class="sakura-container" id="sakura-container"></div>
    
-    <div class="container pulse">
+    <div class="container">
         <div class="title" id="title">消息推送</div>
        
         <div class="info-card">
@@ -312,11 +275,13 @@
             <div class="info-content" id="message">无告警信息</div>
         </div>
        
-        <div class="info-card">
+        <div class="info-card" style="margin-bottom: 0;">
             <div class="info-label">时间</div>
             <div class="info-content" id="date">无时间信息</div>
         </div>
     </div>
+
+    <!-- Markdown 解析库 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
     <script>
         // 从 URL 参数读取数据
@@ -329,34 +294,30 @@
             };
         }
 
-        // 创建动态粒子背景
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 25;
-            const colors = [
-                'rgba(0, 188, 212, 0.2)',
-                'rgba(0, 150, 136, 0.2)',
-                'rgba(77, 182, 172, 0.15)'
-            ];
+        // 创建樱花飘落效果
+        function createSakura() {
+            const container = document.getElementById('sakura-container');
+            const petalCount = 20; // 花瓣数量
            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
                
-                const size = Math.random() * 3 + 1;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
+                // 随机大小
+                const size = Math.random() * 10 + 8;
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size}px`;
                
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.background = randomColor;
+                // 随机位置
+                petal.style.left = `${Math.random() * 100}%`;
+                
+                // 随机动画时长和延迟
+                const duration = 8 + Math.random() * 5;
+                const delay = Math.random() * 10;
+                petal.style.animationDuration = `${duration}s`;
+                petal.style.animationDelay = `-${delay}s`; // 负延迟让动画开始时屏幕上就有花瓣
                
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-               
-                particle.style.animationDelay = `${Math.random() * 20}s`;
-                particle.style.animationDuration = `${20 + Math.random() * 15}s`;
-               
-                particlesContainer.appendChild(particle);
+                container.appendChild(petal);
             }
         }
 
@@ -365,6 +326,7 @@
             const messageEl = document.getElementById('message');
             if (messageEl && typeof marked !== 'undefined') {
                 const markdownText = messageEl.textContent || messageEl.innerText;
+                // 配置 marked 选项（可选）
                 messageEl.innerHTML = marked.parse(markdownText);
             }
         }
@@ -380,7 +342,7 @@
 
         // 页面加载时调用
         window.onload = function() {
-            createParticles();
+            createSakura();
             fillContent();
         };
     </script>
